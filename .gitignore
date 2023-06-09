@@ -8,3 +8,6 @@ yarn-error.log
 config.js.def
 config.js
 loki.json
+*.log
+devices/rooms/*
+!devices/rooms/example
