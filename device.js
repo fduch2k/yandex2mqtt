@@ -121,10 +121,10 @@ class Device {
     findTopicByInstance(instance) {
         return this.data.custom_data.mqtt.find(i => i.instance === instance).set;
     }
-    
+
     /* Get mapped value (if exist) for capability type */
     /**
-     * 
+     *
      * @param {*} val value
      * @param {*} actType capability type
      * @param {*} y2m mapping direction (yandex to mqtt, mqtt to yandex)
@@ -132,11 +132,11 @@ class Device {
     getMappedValue(val, actType, y2m) {
         const map = this.data.custom_data.valueMapping.find(m => m.type == actType);
         if (map == undefined) return val;
-        
+
         var from, to;
         if (y2m == true) [from, to] = map.mapping;
         else [to, from] = map.mapping;
-        
+
         const mappedValue = to[from.indexOf(val)];
         return (mappedValue != undefined) ? mappedValue : val;
     }
@@ -187,7 +187,7 @@ class Device {
             topic = this.findTopicByInstance(instance);
             if (topic == undefined) throw new Error(`Can't find set topic for '${type}' in device '${id}'`);
             message = `${value}`;
-        } catch(e) {              
+        } catch(e) {
             topic = false;
             logger.log('error', {message: `${e}`});
         }

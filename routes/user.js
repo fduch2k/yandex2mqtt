@@ -36,7 +36,7 @@ module.exports.devices = [
             for (const d of global.devices.filter(d => Array.isArray(d.meta.allowedUsers) && d.meta.allowedUsers.indexOf(userId) > -1)) {
                 r.payload.devices.push(d.getInfo());
             };
-            
+
             res.status(200).send(r);
         } catch (e) {
             global.logger.log('error', {message: `${e}`});
@@ -85,7 +85,7 @@ module.exports.action = [
             for (const pdc of payloadDevice.capabilities) {
                 capabilities.push(ldevice.setCapabilityState(pdc.state.value , pdc.type, pdc.state.instance));
             }
-            
+
             r.payload.devices.push({id, capabilities});
         };
 
@@ -100,7 +100,7 @@ module.exports.unlink = [
         const r = {
             request_id: reqId,
         }
-        
+
         res.status(200).send(r);
     }
 ];
