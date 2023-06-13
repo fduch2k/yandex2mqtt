@@ -1,4 +1,4 @@
-const {logger} = global;
+const { logger } = require('./logger');
 
 /* function for convert system values to Yandex (depends of capability or property type) */
 function convertToYandexValue(val, actType) {

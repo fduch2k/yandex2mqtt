@@ -1,6 +1,6 @@
 'use strict';
 
-const {logger} = global;
+const { logger } = require('../logger');
 const codes = {};
 
 module.exports.find = (key, done) => {

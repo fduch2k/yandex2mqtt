@@ -1,6 +1,6 @@
 'use strict';
 
-const {logger} = global;
+const { logger } = require('../logger');
 const {users} = require('../config');
 
 module.exports.findById = (id, done) => {

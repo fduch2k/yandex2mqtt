@@ -1,6 +1,7 @@
 'use strict';
 
 const passport = require('passport');
+const { logger } = require('../logger');
 
 module.exports.info = [
     passport.authenticate('bearer', {session: true}),
@@ -39,7 +40,7 @@ module.exports.devices = [
 
             res.status(200).send(r);
         } catch (e) {
-            global.logger.log('error', {message: `${e}`});
+            logger.log('error', {message: `${e}`});
             res.status(404).send(undefined);
         }
     }

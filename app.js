@@ -2,11 +2,12 @@
 
 const fs = require('fs');
 const path = require('path');
-/* */
-const {createLogger, format, transports} = require('winston');
 /* express and https */
 const ejs = require('ejs');
 const express = require('express');
+const { logger } = require('./logger');
+
+
 const app = express();
 const http = require('http');
 /* parsers */
@@ -24,27 +25,6 @@ config.notification = config.notification || [];
 
 const Device = require('./device');
 
-/* */
-const clArgv = process.argv.slice(2);
-
-/* Logging */
-global.logger = createLogger({
-    level: 'info',
-    format: format.combine(
-        format.errors({stack: true}),
-        format.timestamp(),
-        format.printf(({level, message, timestamp, stack}) => {
-            return `${timestamp} ${level}: ${stack != undefined ? stack : message}`;
-        }),
-    ),
-    transports: [
-        new transports.Console({
-            silent: clArgv.indexOf('--log-info') == -1
-        })
-    ],
-});
-
-if (clArgv.indexOf('--log-error') > -1) global.logger.add(new transports.File({filename: 'log/error.log', level: 'error'}));
 
 /* */
 app.engine('ejs', ejs.__express);
@@ -93,7 +73,7 @@ app.post('/provider/v1.0/user/devices/action', r_user.action);
 app.post('/provider/v1.0/user/unlink', r_user.unlink);
 
 const httpServer = http.createServer(app);
-global.logger.log('info', `App started at ${config.http.port}`);
+logger.log('info', `App started at ${config.http.port}`);
 httpServer.listen(config.http.port);
 
 /* cache devices from config to global */
@@ -148,12 +128,12 @@ global.mqttClient = mqtt.connect(`mqtt://${config.mqtt.host}`, {
                 }
             }, res => {
                 res.on('data', d => {
-                    global.logger.log('info', {message: `${d}`});
+                    logger.log('info', {message: `${d}`});
                 });
             });
 
             req.on('error', error => {
-                global.logger.log('error', {message: `${error}`});
+                logger.log('error', {message: `${error}`});
             });
 
             let {id, capabilities, properties} = ldevice.getState();

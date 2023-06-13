@@ -1,7 +1,7 @@
 'use strict';
 
-const {logger} = global;
-const {clients} = require('../config'); 
+const { logger } = require('../logger');
+const {clients} = require('../config');
 
 module.exports.findById = (id, done) => {
     for (const client of clients) {
