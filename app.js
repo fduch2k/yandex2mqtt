@@ -10,6 +10,8 @@ const { logger } = require('./logger');
 
 const app = express();
 const http = require('http');
+const https = require('https');
+
 /* parsers */
 const cookieParser = require('cookie-parser');
 /* error handler */
@@ -117,7 +119,7 @@ global.mqttClient = mqtt.connect(`mqtt://${config.mqtt.host}`, {
         let {skill_id, oauth_token, user_id} = el;
 
         return new Promise((resolve, reject) => {
-            let req = http.request({
+            let req = https.request({
                 hostname: 'dialogs.yandex.net',
                 port: 443,
                 path: `/api/v1/skills/${skill_id}/callback/state`,
